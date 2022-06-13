@@ -1,0 +1,20 @@
+{
+  "name": "fb_api_project",
+  "version": "1.0.0",
+  "description": "enlightenment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fb"
+  ],
+  "author": "Jeff",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "chokidar": "^3.5.3",
+    "dotenv": "^16.0.1",
+    "properties-reader": "^2.2.0"
+  }
+}

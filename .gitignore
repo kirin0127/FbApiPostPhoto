@@ -1,0 +1,6 @@
+.env
+issues.md
+/resources/imgur/
+/resources/static/
+/targetImageFiles/
+/node_modules/
