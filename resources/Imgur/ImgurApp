@@ -1,0 +1,31 @@
+Client ID:
+<Your Imgur client id>
+
+Client secret:
+<Your Imgur client secret>
+
+--Token Details
+
+Token Name
+<Your token name>
+
+Access Token
+<Your access_token>
+
+Token Type
+bearer
+
+expires_in
+315360000
+
+scope
+null
+
+refresh_token
+<Your refresh_token>
+
+account_id
+<Your account id>
+
+account_username
+<Your account username>
