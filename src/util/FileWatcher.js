@@ -8,7 +8,7 @@ const LoggerFactory = require('../util/LoggerFactory.js');
 
 const logger = LoggerFactory.getLogger('FileWatcher.js');
 
-const logFileName = properties.get('logFileName');
+const logFileName = properties.get('uploadHistoryFileName');
 
 module.exports = {
     watch: async function(targetFolderPath, uploadImgurThenPostFbFunc){
