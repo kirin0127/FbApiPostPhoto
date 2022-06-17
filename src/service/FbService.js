@@ -1,9 +1,16 @@
 const FbApi = require('../api/FbApi.js');
+const LoggerFactory = require('../util/LoggerFactory.js');
+
+const logger = LoggerFactory.getLogger('FbService.js');
 
 const FB_PAGE_ID = process.env.FB_PAGE_ID;
 const FB_LONG_LIVE_PAGE_ACCESS_TOKEN = process.env.FB_LONG_LIVE_PAGE_ACCESS_TOKEN;
 
 module.exports = {
+
+    testLogger: () => {
+        logger.info('test in FbService');
+    },
     postPhotoNow: async function(imageLink, postCaption){
         await FbApi.photoWithCaptionNow(FB_PAGE_ID, imageLink, postCaption, FB_LONG_LIVE_PAGE_ACCESS_TOKEN)
     },

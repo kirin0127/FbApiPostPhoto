@@ -1,5 +1,6 @@
 require('dotenv').config()
 const PropertiesReader = require('properties-reader');
+const FbApi = require('./src/api/FbApi.js');
 const FbService = require('./src/service/FbService.js');
 const ImgurService = require('./src/service/ImgurService.js');
 const DateUtil = require('./src/util/DateUtil.js');

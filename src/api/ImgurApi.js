@@ -2,6 +2,9 @@ const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
+const LoggerFactory = require('../util/LoggerFactory.js');
+
+const logger = LoggerFactory.getLogger('ImgurApi.js');
 
 const IMGUR_ACCOUNT_USERNAME = process.env.IMGUR_ACCOUNT_USERNAME;
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
@@ -14,8 +17,12 @@ const imgurApiEndpoint = 'https://api.imgur.com/3/';
 var constructImageFormData = async function(imageFilePath, paramMap){
     let form = await constructTextFormData(paramMap);
     let fn = path.basename(imageFilePath);
-    form.append('image', fs.readFileSync(imageFilePath), fn);
-    form.append('name', fn);
+    try{
+        form.append('image', fs.readFileSync(imageFilePath), fn);
+        form.append('name', fn);
+    }catch(err){
+        logger.error(err.stack);
+    }
     return new Promise(resolve => resolve(form));
 }
 
@@ -37,13 +44,11 @@ module.exports = {
             },
             mimeType: 'multipart/form-data',
         }).then(function(response){
-            console.log('imgurApi.uploadImage');
-            console.log(response.data);
+            logger.info('ImgurApi.uploadImage success\n' + JSON.stringify(response.data));
             return response.data;
         }).catch(function (error) {
-            console.log('imgurApi.uploadImage failed');
-            console.log(error.response.data);
-            return error.response.data;
+            logger.error('ImgurApi.uploadImage failed\n' + JSON.stringify(error.response.data));
+            throw 'ImgurApi.uploadImage failed'
         });
     },
     getAlbums: function(username){
@@ -54,14 +59,13 @@ module.exports = {
             },
         }).then(
             function(response){
-                console.log('imgurApi.albums');
-                console.log(response.data);
+                logger.info('ImgurApi.getAlbums success');
                 return response.data;
         }).catch(
             function (error) {
-                console.log('imgurApi.uploadImage failed');
-                console.log(error.response.data);
-                return error.response.data;
+                logger.error('ImgurApi.getAlbums failed\n' + JSON.stringify(error.response.data));
+                throw 'ImgurApi.getAlbums failed'
+                
         });
     },
     createAlbum: async function(title, description){
@@ -81,14 +85,12 @@ module.exports = {
             mimeType: 'multipart/form-data',
         }).then(
             function(response){
-                console.log('imgurApi.createAlbum');
-                console.log(response.data);
+                logger.info('ImgurApi.createAlbum success\n' + JSON.stringify(response.data));
                 return response.data;
         }).catch(
             function (error) {
-                console.log('imgurApi.uploadImage failed');
-                console.log(error.response.data);
-                return error.response.data;
+                logger.error('ImgurApi.createAlbum failed\n' + JSON.stringify(error.response.data));
+                throw 'ImgurApi.createAlbum failed';
         });
     },
 }

@@ -4,6 +4,9 @@ const path = require('path');
 const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('./resources/application.properties');
 const DateUtil = require('./DateUtil.js');
+const LoggerFactory = require('../util/LoggerFactory.js');
+
+const logger = LoggerFactory.getLogger('FileWatcher.js');
 
 const logFileName = properties.get('logFileName');
 
@@ -11,14 +14,18 @@ module.exports = {
     watch: async function(targetFolderPath, uploadImgurThenPostFbFunc){
         const watcher = chokidar.watch(targetFolderPath, {ignored: '*.txt', ignoreInitial: true, depth: 0});
         watcher.on('ready', async () => {
+            logger.info('FileWatcher watch on ready');
             let todayFilePath = this.scanThenGetTodayFile(targetFolderPath);
             if(todayFilePath){
+                logger.info('todayFilePath: ' + todayFilePath);
                 await uploadImgurThenPostFbFunc(todayFilePath);
                 this.logAndArchiveFile(todayFilePath);
             }
         })
         .on('add', async addedFilePath => {
+            logger.info('FileWatcher watch on add');
             if(this.isTodayFile(addedFilePath)){
+                logger.info('todayFilePath: ' + addedFilePath);
                 await uploadImgurThenPostFbFunc(addedFilePath);
                 this.logAndArchiveFile(addedFilePath);
             }
