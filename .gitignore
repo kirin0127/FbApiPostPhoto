@@ -1,7 +1,7 @@
 .env
 .log
 issues.md
-/resources/imgur/
+/resources/Imgur/
 /resources/static/
 /targetImageFiles/
 /node_modules/
