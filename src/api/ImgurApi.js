@@ -34,6 +34,19 @@ var constructTextFormData = function(paramMap){
 
 
 module.exports = {
+    getAccessToken: async function(refreshToken, clientId, clientSecret){
+        let paramMap = {refresh_token: IMGUR_REFRESH_TOKEN, client_id: IMGUR_CLIENT_ID, client_secret: IMGUR_CLIENT_SECRET, grant_type: 'refresh_token'};
+        let form = await constructTextFormData(paramMap);
+        return axios.post('https://api.imgur.com/' + 'oauth2/token', form, {
+            mimeType: 'multipart/form-data'
+        }).then(function(response){
+            logger.info('ImgurApi.getAccessToken success\n' + JSON.stringify(response.data));
+            return response.data;
+        }).catch(function (error) {
+            logger.error('ImgurApi.getAccessToken failed\n' + JSON.stringify(error.response.data));
+            throw 'ImgurApi.uploadImage failed'
+        });
+    },
     uploadImage: async function(imageFilePath, title, albumId){
         let paramMap = !albumId ? {title: title} : {title: title, album: albumId};
         let form = await constructImageFormData(imageFilePath, paramMap);
