@@ -10,12 +10,16 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
     return `${timestamp} [${label}] ${level}: ${message}`;
   });
 
+var timeZoned = () => { return new Date().toLocaleString('en-US', {
+    timeZone: 'Asia/Taipei'
+})};
+
 module.exports = {
     getLogger: (fileName) => {
         const logger = winston.createLogger({
             level: 'info',
             // format: winston.format.json(),
-            format: combine(label({label: fileName}), timestamp(), myFormat),
+            format: combine(label({label: fileName}), timestamp({format: timeZoned}), myFormat),
             transports: [
                 new winston.transports.File({ filename: COMBINED_LOG }),
                 new winston.transports.File({ filename: ERROR_LOG, level: 'error'}),
